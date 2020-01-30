@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+#include <ssd1306_tests.h>
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -34,6 +35,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define SSD1306_USE_I2C
 #define __DEBUG 1
 #define BUFFERSIZE 100
 #define I2CBUF	12
@@ -74,7 +76,9 @@ static void MX_I2C1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void init() {
+	ssd1306_TestAll();
+}
 /* USER CODE END 0 */
 
 /**
@@ -115,19 +119,13 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   debug_print("Hello from STM32L432KC dev board\r\n");
-
+  init();
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	returnValue =  HAL_I2C_Mem_Read(&hi2c1, SSD1306_ADDRESS, RANDOM_REG, sizeof(uint8_t), I2CBuffer, sizeof(uint8_t), HAL_MAX_DELAY);
-	if (returnValue != HAL_OK)
-	{
-		debug_print("[Error] I2C RX error\r\n");
-	}
-	sprintf(uartBuffer, "die temp = %d\r\n", I2CBuffer[0]);
-	HAL_UART_Transmit(&huart2, (unsigned char*) uartBuffer, strlen(uartBuffer), HAL_MAX_DELAY);
+
 	HAL_Delay(500);
   }
   /* USER CODE END 3 */
